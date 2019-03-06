@@ -190,6 +190,11 @@ namespace Yazlab2_1beta
             }
 
         }
+
+        public void kontrol()
+        {
+            
+        }
     }
 
 }
