@@ -46,6 +46,7 @@
             this.btn_P15 = new System.Windows.Forms.Button();
             this.btn_P0 = new System.Windows.Forms.Button();
             this.btn_Mix = new System.Windows.Forms.Button();
+            this.maxLabel = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // Btn_sec
@@ -61,6 +62,8 @@
             // 
             // btn_P1
             // 
+            this.btn_P1.FlatAppearance.BorderSize = 3;
+            this.btn_P1.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_P1.Location = new System.Drawing.Point(195, 56);
             this.btn_P1.Name = "btn_P1";
             this.btn_P1.Size = new System.Drawing.Size(150, 150);
@@ -70,6 +73,8 @@
             // 
             // btn_P2
             // 
+            this.btn_P2.FlatAppearance.BorderSize = 3;
+            this.btn_P2.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_P2.Location = new System.Drawing.Point(350, 56);
             this.btn_P2.Name = "btn_P2";
             this.btn_P2.Size = new System.Drawing.Size(150, 150);
@@ -79,6 +84,8 @@
             // 
             // btn_P3
             // 
+            this.btn_P3.FlatAppearance.BorderSize = 3;
+            this.btn_P3.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_P3.Location = new System.Drawing.Point(506, 56);
             this.btn_P3.Name = "btn_P3";
             this.btn_P3.Size = new System.Drawing.Size(150, 150);
@@ -88,6 +95,8 @@
             // 
             // btn_P4
             // 
+            this.btn_P4.FlatAppearance.BorderSize = 3;
+            this.btn_P4.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_P4.Location = new System.Drawing.Point(38, 212);
             this.btn_P4.Name = "btn_P4";
             this.btn_P4.Size = new System.Drawing.Size(150, 150);
@@ -97,6 +106,8 @@
             // 
             // btn_P5
             // 
+            this.btn_P5.FlatAppearance.BorderSize = 3;
+            this.btn_P5.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_P5.Location = new System.Drawing.Point(194, 212);
             this.btn_P5.Name = "btn_P5";
             this.btn_P5.Size = new System.Drawing.Size(150, 150);
@@ -106,6 +117,8 @@
             // 
             // btn_P6
             // 
+            this.btn_P6.FlatAppearance.BorderSize = 3;
+            this.btn_P6.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_P6.Location = new System.Drawing.Point(350, 212);
             this.btn_P6.Name = "btn_P6";
             this.btn_P6.Size = new System.Drawing.Size(150, 150);
@@ -115,6 +128,8 @@
             // 
             // btn_P7
             // 
+            this.btn_P7.FlatAppearance.BorderSize = 3;
+            this.btn_P7.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_P7.Location = new System.Drawing.Point(506, 212);
             this.btn_P7.Name = "btn_P7";
             this.btn_P7.Size = new System.Drawing.Size(150, 150);
@@ -124,6 +139,8 @@
             // 
             // btn_P8
             // 
+            this.btn_P8.FlatAppearance.BorderSize = 3;
+            this.btn_P8.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_P8.Location = new System.Drawing.Point(38, 368);
             this.btn_P8.Name = "btn_P8";
             this.btn_P8.Size = new System.Drawing.Size(150, 150);
@@ -133,6 +150,8 @@
             // 
             // btn_P9
             // 
+            this.btn_P9.FlatAppearance.BorderSize = 3;
+            this.btn_P9.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_P9.Location = new System.Drawing.Point(194, 368);
             this.btn_P9.Name = "btn_P9";
             this.btn_P9.Size = new System.Drawing.Size(150, 150);
@@ -142,6 +161,8 @@
             // 
             // btn_P10
             // 
+            this.btn_P10.FlatAppearance.BorderSize = 3;
+            this.btn_P10.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_P10.Location = new System.Drawing.Point(350, 368);
             this.btn_P10.Name = "btn_P10";
             this.btn_P10.Size = new System.Drawing.Size(150, 150);
@@ -151,6 +172,8 @@
             // 
             // btn_P11
             // 
+            this.btn_P11.FlatAppearance.BorderSize = 3;
+            this.btn_P11.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_P11.Location = new System.Drawing.Point(506, 368);
             this.btn_P11.Name = "btn_P11";
             this.btn_P11.Size = new System.Drawing.Size(150, 150);
@@ -160,6 +183,8 @@
             // 
             // btn_P12
             // 
+            this.btn_P12.FlatAppearance.BorderSize = 3;
+            this.btn_P12.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_P12.Location = new System.Drawing.Point(38, 524);
             this.btn_P12.Name = "btn_P12";
             this.btn_P12.Size = new System.Drawing.Size(150, 150);
@@ -169,6 +194,8 @@
             // 
             // btn_P13
             // 
+            this.btn_P13.FlatAppearance.BorderSize = 3;
+            this.btn_P13.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_P13.Location = new System.Drawing.Point(194, 524);
             this.btn_P13.Name = "btn_P13";
             this.btn_P13.Size = new System.Drawing.Size(150, 150);
@@ -178,6 +205,8 @@
             // 
             // btn_P14
             // 
+            this.btn_P14.FlatAppearance.BorderSize = 3;
+            this.btn_P14.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_P14.Location = new System.Drawing.Point(350, 524);
             this.btn_P14.Name = "btn_P14";
             this.btn_P14.Size = new System.Drawing.Size(150, 150);
@@ -187,6 +216,8 @@
             // 
             // btn_P15
             // 
+            this.btn_P15.FlatAppearance.BorderSize = 3;
+            this.btn_P15.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_P15.Location = new System.Drawing.Point(506, 524);
             this.btn_P15.Name = "btn_P15";
             this.btn_P15.Size = new System.Drawing.Size(150, 150);
@@ -196,6 +227,8 @@
             // 
             // btn_P0
             // 
+            this.btn_P0.FlatAppearance.BorderSize = 3;
+            this.btn_P0.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btn_P0.Location = new System.Drawing.Point(38, 56);
             this.btn_P0.Name = "btn_P0";
             this.btn_P0.Size = new System.Drawing.Size(150, 150);
@@ -214,11 +247,21 @@
             this.btn_Mix.UseVisualStyleBackColor = true;
             this.btn_Mix.Click += new System.EventHandler(this.btn_Mix_Click);
             // 
+            // maxLabel
+            // 
+            this.maxLabel.AutoSize = true;
+            this.maxLabel.Location = new System.Drawing.Point(225, 22);
+            this.maxLabel.Name = "maxLabel";
+            this.maxLabel.Size = new System.Drawing.Size(27, 13);
+            this.maxLabel.TabIndex = 2;
+            this.maxLabel.Text = "Max";
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(818, 741);
+            this.ClientSize = new System.Drawing.Size(698, 703);
+            this.Controls.Add(this.maxLabel);
             this.Controls.Add(this.btn_P15);
             this.Controls.Add(this.btn_P11);
             this.Controls.Add(this.btn_P14);
@@ -241,6 +284,7 @@
             this.Name = "Form1";
             this.Text = "Form1";
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -264,6 +308,7 @@
         private System.Windows.Forms.Button btn_P15;
         private System.Windows.Forms.Button btn_P0;
         private System.Windows.Forms.Button btn_Mix;
+        private System.Windows.Forms.Label maxLabel;
     }
 }
 
