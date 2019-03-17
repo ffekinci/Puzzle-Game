@@ -22,6 +22,7 @@ namespace Yazlab2_1beta
         int count = 0;
         int score = 100;
         int maxScore = 0;
+        int minMove = 0;
 
         public Form1()
         {
@@ -33,8 +34,42 @@ namespace Yazlab2_1beta
             maxLabel.Text = maxScore.ToString();
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
+        }
 
+        public int shortestPath(int [] arr)
+        {
+            int movePoint = 0;
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if(arr[arr[i]] == i)
+                {
+                    int tmp = arr[i];
+                    arr[i] = arr[arr[i]];
+                    arr[arr[i]] = tmp;
 
+                    movePoint++;
+                }
+            }
+
+            for (int i = 0; i < arr.Length; i++)
+            {
+                if (arr[i] != i )
+                {
+                    for (int j = 0; j < arr.Length; j++)
+                    {
+                        if(arr[j] == i)
+                        {
+                            int tmp = arr[j];
+                            arr[j] = arr[i];
+                            arr[i] = tmp;
+
+                            movePoint++;
+                        }
+                    }
+
+                }
+            }
+            return movePoint; 
         }
 
         public void FileRead()
@@ -97,6 +132,7 @@ namespace Yazlab2_1beta
         public void Mix(Bitmap[,] bmps)
         {
             var random = Shuffle();
+            minMove = shortestPath(random);
             int a = 0;
             for (int i = 0; i < 4; i++)
             {
@@ -118,18 +154,11 @@ namespace Yazlab2_1beta
                     //    Console.Write(element);
                     //}
                     //Console.WriteLine("----------------------");
-
-
-
-
-
+                    
                     Button foobar2 = (Button)Controls.Find("btn_P" + random[a], false)[0];
                     //foobar2.Tag = Hashing.getInstance();
                     foobar2.BackgroundImage = bmps[i, k];
-
-
-
-
+                    
                     //byte[] rawImageData = converter.ConvertTo(foobar2.BackgroundImage, typeof(byte[])) as byte[];
 
                     //hashing.Mixed = ImageHashing(rawImageData);
@@ -332,6 +361,7 @@ namespace Yazlab2_1beta
 
             if (i == 16)
             {
+                score += minMove * 2;
                 MessageBox.Show("Winner winner chicken dinner! Score: " + score);
                 FileWrite();
                 if (score > maxScore)
