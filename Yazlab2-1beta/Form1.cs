@@ -15,10 +15,10 @@ namespace Yazlab2_1beta
 {
     public partial class Form1 : Form
     {
-        string path;
+        public enum State { Enable, Disable };
+        FileOp op = new FileOp("enyuksekskor.txt");
         Bitmap[,] bmps = new Bitmap[4, 4];
         int buttonId = -1;
-        bool isFirstTime = true;
         int count = 0;
         int score = 100;
         int maxScore = 0;
@@ -29,19 +29,21 @@ namespace Yazlab2_1beta
             InitializeComponent();
 
             btn_Mix.Enabled = false;
-            ButtonState(false);
-            FileRead();
+            ButtonState(State.Disable);
+
+            // read scores
+            op.Read(ref maxScore);
             maxLabel.Text = maxScore.ToString();
             FormBorderStyle = FormBorderStyle.FixedSingle;
             MaximizeBox = false;
         }
 
-        public int shortestPath(int [] arr)
+        public int shortestPath(int[] arr)
         {
             int movePoint = 0;
             for (int i = 0; i < arr.Length; i++)
             {
-                if(arr[arr[i]] == i)
+                if (arr[arr[i]] == i)
                 {
                     int tmp = arr[i];
                     arr[i] = arr[arr[i]];
@@ -53,11 +55,11 @@ namespace Yazlab2_1beta
 
             for (int i = 0; i < arr.Length; i++)
             {
-                if (arr[i] != i )
+                if (arr[i] != i)
                 {
                     for (int j = 0; j < arr.Length; j++)
                     {
-                        if(arr[j] == i)
+                        if (arr[j] == i)
                         {
                             int tmp = arr[j];
                             arr[j] = arr[i];
@@ -69,116 +71,71 @@ namespace Yazlab2_1beta
 
                 }
             }
-            return movePoint; 
+            return movePoint;
         }
 
-        public void FileRead()
-        {
-            if (File.Exists("enyuksekskor.txt"))
-            {
-                var lines = File.ReadAllLines("enyuksekskor.txt");
-                List<int> list = new List<int>();
-
-                foreach (var line in lines)
-                {
-                    list.Add(Int32.Parse(line));
-                }
-
-                if(list.Count != 0)
-                    maxScore = list.Max();
-            }
-
-        }
-
-        public void FileWrite()
-        {
-            using (StreamWriter sw = File.AppendText("enyuksekskor.txt"))
-            {
-                sw.WriteLine(score);
-            }
-            
-
-        }
-
-        public void ButtonState(bool status)
+        public void ButtonState(State status)
         {
             for (int i = 0; i < 16; i++)
             {
-                String a = "btn_P" + i;
-                Controls.Find(a, false)[0].Enabled = status;
+                string key = "btn_P" + i;
+                Controls[key].Enabled = (status == State.Enable) ? true : false;
             }
+        }
+
+        public void ButtonState(int index, State status)
+        {
+            string key = "btn_P" + index;
+            Controls[key].Enabled = (status == State.Enable) ? true : false;
         }
 
         public int[] Shuffle()
         {
-            Random rastgele = new Random();
-            var rand = new int[16];
+            Random rand = new Random();
+            var randNums = new int[16];
             for (int i = 0; i < 16; i++)
             {
-                rand[i] = i;
+                randNums[i] = i;
             }
 
             for (int i = 15; i >= 0; i--)
             {
-                int sayi = rastgele.Next(9);
-                int tmp = rand[i];
-                rand[i] = rand[sayi];
-                rand[sayi] = tmp;
+                int num = rand.Next(9);
+                int tmp = randNums[i];
+                randNums[i] = randNums[num];
+                randNums[num] = tmp;
             }
 
-            return rand;
+            return randNums;
         }
 
         public void Mix(Bitmap[,] bmps)
         {
             var random = Shuffle();
-            minMove = shortestPath(random);
+            minMove = shortestPath(random.Clone() as int[]);
             int a = 0;
             for (int i = 0; i < 4; i++)
             {
                 for (int k = 0; k < 4; k++)
                 {
-
-                    Button foobar = (Button)Controls.Find("btn_P" + a, false)[0];
-                    Hashing hashing = new Hashing();
+                    Button foobar = Controls["btn_P" + a] as Button;
                     ImageConverter converter = new ImageConverter();
-                    foobar.Tag = new Hashing();
-                    
-
-                    byte[] orgData = converter.ConvertTo(bmps[i, k], typeof(byte[])) as byte[];
-                    hashing.Original = ImageHashing(orgData);
-                    ((Hashing)foobar.Tag).Original = hashing.Original;
-
-                    //foreach (var element in ((Hashing)foobar.Tag).Original)
-                    //{
-                    //    Console.Write(element);
-                    //}
-                    //Console.WriteLine("----------------------");
-                    
+                    // tagging button with hash bytes
+                    foobar.Tag = ImageHashing(bmps[i, k]);
                     Button foobar2 = (Button)Controls.Find("btn_P" + random[a], false)[0];
-                    //foobar2.Tag = Hashing.getInstance();
                     foobar2.BackgroundImage = bmps[i, k];
-                    
-                    //byte[] rawImageData = converter.ConvertTo(foobar2.BackgroundImage, typeof(byte[])) as byte[];
-
-                    //hashing.Mixed = ImageHashing(rawImageData);
-                    //((Hashing)foobar2.Tag).Mixed = hashing.Mixed;
-
                     foobar2.BackgroundImageLayout = ImageLayout.Stretch;
                     a++;
-                    //foreach (var element in ((Hashing)foobar.Tag).Mixed)
-                    //{
-                    //    Console.Write(element);
-                    //}
-                    //Console.WriteLine();
+
                 }
             }
-            isFirstTime = false;
 
 
             ButtonControl();
 
-            isFinitto();
+            if (isFinitto())
+                MessageBox.Show("Score: " + score);
+
 
         }
 
@@ -192,11 +149,9 @@ namespace Yazlab2_1beta
 
                 ImageConverter converter = new ImageConverter();
 
-                byte[] orgData = converter.ConvertTo(foobar.BackgroundImage, typeof(byte[])) as byte[];
+                var newHash = ImageHashing(foobar.BackgroundImage);
 
-                var newHash = ImageHashing(orgData);
-
-                if (newHash.SequenceEqual(((Hashing)foobar.Tag).Original))
+                if (newHash.SequenceEqual(foobar.Tag as byte[]))
                 {
                     isOK = true;
                     foobar.FlatAppearance.BorderColor = Color.Green;
@@ -206,30 +161,31 @@ namespace Yazlab2_1beta
 
             if (isOK)
             {
-                ButtonState(true);
+                ButtonState(State.Enable);
                 btn_Mix.Enabled = false;
             }
         }
 
-        public byte[] ImageHashing(byte[] rawImageData)
+
+        //hash the image but better.
+        //and it's accepts Image instead a Bitmap beacuse Bitmap extends Image class so it can accept BMP and Button Image without any cast operation
+        public byte[] ImageHashing(Image Image)
         {
+            // convert image to rawData as bytes
+            var rawImgData = new ImageConverter().ConvertTo(Image, typeof(byte[])) as byte[];
             MD5CryptoServiceProvider md5 = new MD5CryptoServiceProvider();
-            byte[] hash = md5.ComputeHash(rawImageData);
 
-            //foreach (var element in hash)
-            //{
-            //    Console.Write(element);
-            //}
-            //Console.WriteLine();
-
-            return hash;
+            //then compute hash and return
+            return md5.ComputeHash(rawImgData);
         }
 
+        //return selected file's path
         public string FilePath()
         {
             using (OpenFileDialog dlg = new OpenFileDialog())
             {
                 dlg.Title = "Open Image";
+                dlg.Filter = "Image Files|*.jpg;*.jpeg;*.png;*.bmp;";
 
                 if (dlg.ShowDialog() == DialogResult.OK)
                 {
@@ -251,23 +207,27 @@ namespace Yazlab2_1beta
             score = 100;
             for (int i = 0; i < 16; i++)
             {
-                Button btn = (Button)Controls.Find("btn_P" + i, false)[0];
+                Button btn = Controls["btn_P" + i] as Button;
                 btn.FlatAppearance.BorderColor = Color.Black;
             }
+            
 
-            isFirstTime = true;
-            path = FilePath();
+            // dosya secilmezse null doner!!
+            string path = FilePath();
 
-            // Create a new Bitmap object from the picture file on disk,
-            // and assign that to the PictureBox.Image property
+            // path null ise islem yapma cunku bitmap null path ile initialize olmaz
+
+            if (path is null)
+                return;
+
             var bitmap = new Bitmap(path);
 
 
-            Image img = bitmap; // a.png has 312X312 width and height
+            Image img = bitmap;
 
             int width = img.Width / 4;
             int height = img.Height / 4;
-            
+
 
             for (int i = 0; i < 4; i++)
             {
@@ -283,24 +243,29 @@ namespace Yazlab2_1beta
         }
 
         private void btn_Mix_Click(object sender, EventArgs e)
-        {        
+        {
             Mix(bmps);
         }
 
         private void btnClick(object sender, EventArgs e)
         {
+            Button button = sender as Button;
+            if (!button.Enabled)
+            {
+                return;
+            }
 
-            Button button = (Button)sender;
-            if(buttonId == -1){
-                buttonId = Int32.Parse(button.Name.Substring(5, button.Name.Length - 5));
+            if (buttonId == -1)
+            {
+                buttonId = int.Parse(button.Name.Substring(5, button.Name.Length - 5));
                 //Controls.Find("btn_P"+)
             }
-            else if(buttonId != Int32.Parse(button.Name.Substring(5, button.Name.Length - 5))){
+            else if (buttonId != int.Parse(button.Name.Substring(5, button.Name.Length - 5)))
+            {
 
-                int secondId = Int32.Parse(button.Name.Substring(5, button.Name.Length - 5));
-
-                Button first = (Button) Controls.Find("btn_P" + buttonId, false)[0];
-                Button second = (Button)Controls.Find("btn_P" + secondId, false)[0];
+                int secondId = int.Parse(button.Name.Substring(5, button.Name.Length - 5));
+                Button first = Controls["btn_P" + buttonId] as Button;
+                Button second = Controls["btn_P" + secondId] as Button;
 
 
                 Image tmp = first.BackgroundImage;
@@ -308,52 +273,62 @@ namespace Yazlab2_1beta
                 first.BackgroundImage = second.BackgroundImage;
                 second.BackgroundImage = tmp;
 
-                ImageConverter converter = new ImageConverter();
-                byte[] firstData = converter.ConvertTo(first.BackgroundImage, typeof(byte[])) as byte[];
-                byte[] secondData = converter.ConvertTo(second.BackgroundImage, typeof(byte[])) as byte[];
+                // buralarıda degistirdim cunku mantiklii bu resmi gonderdim kendi halletti
+                var firstHash = ImageHashing(first.BackgroundImage);
+                var secondHash = ImageHashing(second.BackgroundImage);
 
-                var firstHash = ImageHashing(firstData);
-                var secondHash = ImageHashing(secondData);
-
-
-                if (firstHash.SequenceEqual(((Hashing)first.Tag).Original))
+                /*
+                 * diyorum ki reyiz bi hamle yaptık biri dogru yerdeyse puan kırmayak. 
+                 */
+                if (firstHash.SequenceEqual(first.Tag as byte[]))
                 {
                     first.FlatAppearance.BorderColor = Color.Green;
+                    ButtonState(buttonId, State.Disable);
                     score -= 2;
                 }
+
                 else
                 {
                     first.FlatAppearance.BorderColor = Color.Red;
+                    ButtonState(buttonId, State.Enable);
                     score -= 2;
                 }
 
-                if (secondHash.SequenceEqual(((Hashing)second.Tag).Original))
+                if (secondHash.SequenceEqual(second.Tag as byte[]))
                 {
                     second.FlatAppearance.BorderColor = Color.Green;
+                    ButtonState(secondId, State.Disable);
                     score -= 2;
                 }
+
                 else
                 {
                     second.FlatAppearance.BorderColor = Color.Red;
+                    ButtonState(secondId, State.Enable);
                     score -= 2;
                 }
 
                 buttonId = -1;
 
-                isFinitto();
+                if (isFinitto())
+                    MessageBox.Show("Score: " + score);
 
             }
 
         }
 
-        public void isFinitto()
+        public bool isFinitto()
         {
             int i = 0;
-            for (i=0; i < 16; i++)
+            /* 
+             * 16 tane yeşil dışı rengi olan buton yoksa oyun bitmemiştir.
+             * çünkü doğru resmin olduğu butunun sınır rengi yeşil yapıldı.
+             */
+            for (i = 0; i < 16; i++)
             {
                 Button btn = (Button)Controls.Find("btn_P" + i, false)[0];
-                
-                if(btn.FlatAppearance.BorderColor != Color.Green)
+
+                if (btn.FlatAppearance.BorderColor != Color.Green)
                 {
                     break;
                 }
@@ -361,16 +336,16 @@ namespace Yazlab2_1beta
 
             if (i == 16)
             {
-                score += minMove * 2;
-                MessageBox.Show("Winner winner chicken dinner! Score: " + score);
-                FileWrite();
-                if (score > maxScore)
-                    maxLabel.Text = score.ToString();
-
+                if (score < 0)
+                    score = 0;
+                if (score > 100)
+                    score = 100;
+                op.Write(score);
+                return true;
             }
 
 
-            
+            return false;
         }
     }
 
